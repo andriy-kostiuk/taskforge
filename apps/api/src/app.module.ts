@@ -5,19 +5,21 @@ import { ConfigModule } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-
-import { PrismaModule } from 'src/prisma/prisma.module';
+import { PrismaModule } from './prisma/prisma.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: [
+        join(__dirname, '..', '..', '..', '.env'),
         join(__dirname, '..', '.env.local'),
         join(__dirname, '..', '.env'),
       ],
     }),
     PrismaModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
