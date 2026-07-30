@@ -1,0 +1,23 @@
+{
+  "name": "taskforge",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "yarn@4.9.2",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n web,api \"yarn dev:web\" \"yarn dev:api\"",
+    "dev:web": "yarn workspace @taskforge/web dev",
+    "dev:api": "yarn workspace @taskforge/api start:dev",
+    "build:web": "yarn workspace @taskforge/web build",
+    "build:api": "yarn workspace @taskforge/api build",
+    "db:generate": "yarn workspace @taskforge/database db:generate",
+    "db:migrate": "yarn workspace @taskforge/database db:migrate",
+    "db:studio": "yarn workspace @taskforge/database db:studio"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.4"
+  }
+}
