@@ -1,18 +1,5 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
-import {
-  createUserSchema,
-  type UpdateUserInput,
-  updateUserSchema,
-  type CreateUserInput,
-} from '@taskforge/contracts';
+import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common';
+import { type UpdateUserInput, updateUserSchema } from '@taskforge/contracts';
 
 import { UserService } from './user.service';
 
@@ -25,11 +12,6 @@ export class UserController {
   @Get()
   getAll() {
     return this.userService.findAll();
-  }
-
-  @Post()
-  create(@Body(new ZodValidationPipe(createUserSchema)) body: CreateUserInput) {
-    return this.userService.create(body);
   }
 
   @Patch('/:id')
