@@ -4,21 +4,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { CreateUserInput } from '@taskforge/contracts';
 import { useRouter } from 'next/navigation';
-import type { HTMLInputTypeAttribute } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import type { RegisterOptions, SubmitHandler } from 'react-hook-form';
+import type { SubmitHandler } from 'react-hook-form';
 
 import { AuthCard } from '../auth-card';
+import { FieldConfig } from '../../types';
 
 type RegisterFormValues = CreateUserInput & {
   confirmPassword: string;
-};
-
-type FieldConfig = {
-  name: keyof RegisterFormValues;
-  label: string;
-  type: HTMLInputTypeAttribute;
-  validation?: RegisterOptions<RegisterFormValues, keyof RegisterFormValues>;
 };
 
 export const Register = () => {
@@ -40,7 +33,7 @@ export const Register = () => {
     name: 'password',
   });
 
-  const fields: FieldConfig[] = [
+  const fields: FieldConfig<RegisterFormValues>[] = [
     {
       name: 'name',
       label: 'Name',

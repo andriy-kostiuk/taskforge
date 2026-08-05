@@ -4,15 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { LoginInput } from '@taskforge/contracts';
 import { useRouter } from 'next/navigation';
-import type { HTMLInputTypeAttribute } from 'react';
 import { useForm } from 'react-hook-form';
 import type { SubmitHandler } from 'react-hook-form';
 
 import { AuthCard } from '../auth-card';
-
-const MESSAGES = {
-  required: 'This field is required',
-};
+import { FieldConfig } from '../../types';
 
 export const Login = () => {
   const router = useRouter();
@@ -27,20 +23,22 @@ export const Login = () => {
     console.log(data);
   };
 
-  const fields: {
-    name: keyof LoginInput;
-    label: string;
-    type: HTMLInputTypeAttribute;
-  }[] = [
+  const fields: FieldConfig<LoginInput>[] = [
     {
       name: 'email',
       label: 'Email',
       type: 'email',
+      validation: {
+        required: 'Name is required',
+      },
     },
     {
       name: 'password',
       label: 'Password',
       type: 'password',
+      validation: {
+        required: 'Password is required',
+      },
     },
   ];
 
@@ -54,7 +52,7 @@ export const Login = () => {
       description="Sign in to manage your tasks, track project progress, and keep your workflow moving."
     >
       <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
-        {fields.map(({ name, label, type }) => {
+        {fields.map(({ name, label, type, validation }) => {
           return (
             <div key={name} className="flex flex-col gap-2">
               <label
@@ -65,7 +63,7 @@ export const Login = () => {
               </label>
               <Input
                 id={name}
-                {...register(name, { required: MESSAGES.required })}
+                {...register(name, validation)}
                 type={type}
                 className="h-11 rounded-xl bg-background/80 px-3 text-sm shadow-xs"
               />
