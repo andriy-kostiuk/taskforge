@@ -9,6 +9,8 @@ import type { SubmitHandler } from 'react-hook-form';
 
 import { AuthCard } from '../auth-card';
 import { FieldConfig } from '../../types';
+import { toast } from 'react-toastify';
+import { getApiError, loginUser } from '@/shared/api';
 
 export const Login = () => {
   const router = useRouter();
@@ -16,11 +18,19 @@ export const Login = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<LoginInput>();
 
-  const onSubmit: SubmitHandler<LoginInput> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<LoginInput> = async (data) => {
+    try {
+      await loginUser(data);
+
+      router.push('/');
+    } catch (error) {
+      const { displayMessage } = getApiError(error);
+
+      toast.error(displayMessage);
+    }
   };
 
   const fields: FieldConfig<LoginInput>[] = [
@@ -54,7 +64,11 @@ export const Login = () => {
       <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
         {fields.map(({ name, label, type, validation }) => {
           return (
-            <div key={name} className="flex flex-col gap-2">
+            <fieldset
+              key={name}
+              className="flex flex-col gap-2"
+              disabled={isSubmitting}
+            >
               <label
                 htmlFor={name}
                 className="pl-2.5 text-xs font-medium tracking-[0.14em] text-muted-foreground uppercase"
@@ -73,12 +87,17 @@ export const Login = () => {
                   {errors[name].message}
                 </p>
               )}
-            </div>
+            </fieldset>
           );
         })}
 
         <div className="flex flex-col gap-3 pt-2">
-          <Button type="submit" size="lg" className="w-full rounded-xl">
+          <Button
+            type="submit"
+            size="lg"
+            className="w-full rounded-xl"
+            disabled={isSubmitting}
+          >
             Sign in
           </Button>
 
@@ -88,6 +107,7 @@ export const Login = () => {
             size="lg"
             className="w-full rounded-xl"
             onClick={handleRegister}
+            disabled={isSubmitting}
           >
             Create account
           </Button>

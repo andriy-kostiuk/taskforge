@@ -1,11 +1,11 @@
+import { API_URL } from '@/constants';
 import axios, {
   AxiosError,
   type AxiosInstance,
   type InternalAxiosRequestConfig,
 } from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-const REFRESH_PATH = '/refresh';
+const REFRESH_PATH = '/auth/refresh';
 
 type RetryableRequest = InternalAxiosRequestConfig & {
   _retry?: boolean;
@@ -22,10 +22,7 @@ const instance: AxiosInstance = axios.create({
 });
 
 const refreshSession = async (): Promise<void> => {
-  await instance.post(`${API_URL}${REFRESH_PATH}`, undefined, {
-    timeout: 5000,
-    withCredentials: true,
-  });
+  await instance.post(`${REFRESH_PATH}`);
 };
 
 instance.interceptors.response.use(

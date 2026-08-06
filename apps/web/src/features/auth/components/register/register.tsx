@@ -9,6 +9,8 @@ import type { SubmitHandler } from 'react-hook-form';
 
 import { AuthCard } from '../auth-card';
 import { FieldConfig } from '../../types';
+import { createUser, getApiError } from '@/shared/api';
+import { toast } from 'react-toastify';
 
 type RegisterFormValues = CreateUserInput & {
   confirmPassword: string;
@@ -24,8 +26,15 @@ export const Register = () => {
     formState: { errors },
   } = useForm<RegisterFormValues>();
 
-  const onSubmit: SubmitHandler<RegisterFormValues> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<RegisterFormValues> = async (data) => {
+    try {
+      await createUser(data);
+
+      router.push('/');
+    } catch (error) {
+      const { displayMessage } = getApiError(error);
+      toast.error(displayMessage);
+    }
   };
 
   const password = useWatch({
@@ -57,7 +66,7 @@ export const Register = () => {
       validation: {
         required: 'Password is required',
         minLength: {
-          value: 8,
+          value: 4,
           message: 'Password must be at least 8 characters',
         },
       },
