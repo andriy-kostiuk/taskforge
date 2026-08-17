@@ -4,25 +4,32 @@ import type {
   UserResponse,
 } from '@taskforge/contracts';
 
-import { apiClient } from '../api-client';
+import { privateApiClient, publicApiClient } from '../api-client';
 
 export type LoginUserArgs = LoginInput;
 
-export const loginUser = async (args: LoginUserArgs): Promise<void> => {
-  await apiClient.post('/auth/login', args);
+export const login = async (args: LoginUserArgs): Promise<void> => {
+  await publicApiClient.post('/auth/login', args);
 };
 
-export const createUser = async (
+export const register = async (
   args: CreateUserInput
 ): Promise<UserResponse> => {
-  const response = await apiClient.post<UserResponse>('/auth/register', args);
+  const response = await publicApiClient.post<UserResponse>(
+    '/auth/register',
+    args
+  );
   return response.data;
 };
 
-export const refreshTokens = async (): Promise<void> => {
-  await apiClient.post('/auth/refresh');
+export const refreshSession = async (): Promise<void> => {
+  await privateApiClient.post('/auth/refresh');
 };
 
 export const logout = async (): Promise<void> => {
-  await apiClient.post('/auth/logout');
+  await privateApiClient.post('/auth/logout');
+};
+
+export const getMe = async (): Promise<UserResponse> => {
+  return privateApiClient.get('/auth/me');
 };

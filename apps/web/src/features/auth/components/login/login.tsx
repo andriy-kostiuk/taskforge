@@ -10,7 +10,7 @@ import type { SubmitHandler } from 'react-hook-form';
 import { AuthCard } from '../auth-card';
 import { FieldConfig } from '../../types';
 import { toast } from 'react-toastify';
-import { getApiError, loginUser } from '@/shared/api';
+import { getApiError, login } from '@/shared/api';
 
 export const Login = () => {
   const router = useRouter();
@@ -23,7 +23,7 @@ export const Login = () => {
 
   const onSubmit: SubmitHandler<LoginInput> = async (data) => {
     try {
-      await loginUser(data);
+      await login(data);
 
       router.push('/');
     } catch (error) {

@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import type { StringValue } from 'ms';
 
-import { AccessRefreshPayload, AccessTokenPayload } from 'src/auth/auth.types';
+import { RefreshTokenPayload, AccessTokenPayload } from 'src/auth/auth.types';
 
 @Injectable()
 export class AuthTokenService {
@@ -35,7 +35,7 @@ export class AuthTokenService {
     return this.jwtService.verifyAsync(token);
   }
 
-  verifyRefreshToken(token: string): Promise<AccessRefreshPayload> {
+  verifyRefreshToken(token: string): Promise<RefreshTokenPayload> {
     return this.jwtService.verifyAsync(token);
   }
 }

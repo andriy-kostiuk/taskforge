@@ -9,7 +9,7 @@ import type { SubmitHandler } from 'react-hook-form';
 
 import { AuthCard } from '../auth-card';
 import { FieldConfig } from '../../types';
-import { createUser, getApiError } from '@/shared/api';
+import { register as registerUser, getApiError } from '@/shared/api';
 import { toast } from 'react-toastify';
 
 type RegisterFormValues = CreateUserInput & {
@@ -28,7 +28,7 @@ export const Register = () => {
 
   const onSubmit: SubmitHandler<RegisterFormValues> = async (data) => {
     try {
-      await createUser(data);
+      await registerUser(data);
 
       router.push('/');
     } catch (error) {

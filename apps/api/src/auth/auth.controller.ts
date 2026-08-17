@@ -1,10 +1,11 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
   Req,
   Res,
-  UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
 import {
   createUserSchema,
@@ -17,27 +18,20 @@ import type { Request, Response } from 'express';
 import { AuthCookiesService } from './auth.cookies.service';
 import { AuthService } from './auth.service';
 
+import { AuthGuard } from 'src/auth/auth.guard';
+import type { CurrentUserData } from 'src/auth/auth.types';
+import { getCookieToken } from 'src/auth/auth.utils';
+import { CurrentUser } from 'src/auth/current-user.decorator';
 import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
+import { UserService } from 'src/user/user.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly authCookiesService: AuthCookiesService
+    private readonly authCookiesService: AuthCookiesService,
+    private readonly userService: UserService
   ) {}
-
-  private getCookieToken(
-    request: Request,
-    token: 'accessToken' | 'refreshToken'
-  ) {
-    const tokenFromRequest: unknown = request.cookies?.[token];
-
-    if (!tokenFromRequest || typeof tokenFromRequest !== 'string') {
-      throw new UnauthorizedException();
-    }
-
-    return tokenFromRequest;
-  }
 
   @Post('/register')
   async register(
@@ -73,7 +67,7 @@ export class AuthController {
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response
   ) {
-    const refreshRequestToken = this.getCookieToken(request, 'refreshToken');
+    const refreshRequestToken = getCookieToken(request, 'refreshToken');
 
     const { accessToken, refreshToken } =
       await this.authService.refresh(refreshRequestToken);
@@ -89,17 +83,16 @@ export class AuthController {
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response
   ) {
-    const refreshRequestToken = this.getCookieToken(request, 'refreshToken');
+    const refreshRequestToken = getCookieToken(request, 'refreshToken');
 
     await this.authService.logout(refreshRequestToken);
 
     this.authCookiesService.clearAuthCookies(response);
   }
 
-  @Post('/me')
-  getCurrentUser(@Req() request: Request) {
-    const accessToken = this.getCookieToken(request, 'accessToken');
-
-    return this.authService.me(accessToken);
+  @Get('/me')
+  @UseGuards(AuthGuard)
+  getCurrentUser(@CurrentUser() user: CurrentUserData) {
+    return this.userService.findByField({ id: user.userId });
   }
 }

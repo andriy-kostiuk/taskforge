@@ -2,7 +2,7 @@
   "name": "@taskforge/api",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Andrii Kostiuk",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
