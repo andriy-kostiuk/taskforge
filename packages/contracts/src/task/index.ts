@@ -1,1 +1,1 @@
-export * from './task.types.js';
+export * from './task.schemas.js';

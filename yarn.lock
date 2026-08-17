@@ -2784,6 +2784,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@taskforge/contracts@workspace:packages/contracts"
   dependencies:
+    "@taskforge/database": "workspace:*"
     typescript: "npm:^5"
     zod: "npm:^4.4.3"
   languageName: unknown

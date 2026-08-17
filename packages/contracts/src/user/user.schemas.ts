@@ -19,6 +19,13 @@ export const userResponseSchema = z.object({
   updatedAt: z.string(),
 });
 
+export const userSummarySchema = userResponseSchema.pick({
+  id: true,
+  email: true,
+  name: true,
+});
+
 export type CreateUserInput = z.infer<typeof createUserSchema>;
 export type UpdateUserInput = z.infer<typeof updateUserSchema>;
 export type UserResponse = z.infer<typeof userResponseSchema>;
+export type UserSummary = z.infer<typeof userSummarySchema>;
