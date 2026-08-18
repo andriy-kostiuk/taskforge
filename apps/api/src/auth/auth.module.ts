@@ -22,6 +22,6 @@ import { UserModule } from 'src/user/user.module';
       }),
     }),
   ],
-  exports: [AuthGuard],
+  exports: [AuthGuard, AuthTokenService],
 })
 export class AuthModule {}

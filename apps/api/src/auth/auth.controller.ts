@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
   Post,
   Req,
   Res,
@@ -50,6 +51,7 @@ export class AuthController {
   }
 
   @Post('/login')
+  @HttpCode(200)
   async login(
     @Body(new ZodValidationPipe(loginSchema)) body: LoginInput,
     @Res({ passthrough: true }) response: Response
@@ -63,6 +65,7 @@ export class AuthController {
   }
 
   @Post('/refresh')
+  @HttpCode(200)
   async refresh(
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response
@@ -79,6 +82,7 @@ export class AuthController {
   }
 
   @Post('/logout')
+  @HttpCode(200)
   async logout(
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response

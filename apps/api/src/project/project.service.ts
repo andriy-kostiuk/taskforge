@@ -65,7 +65,7 @@ export class ProjectService {
     return projects.map(toProjectResponse);
   }
 
-  async updateProjectMeta(
+  async updateProject(
     projectId: string,
     updateProjectInput: UpdateProjectInput,
     userId: string
