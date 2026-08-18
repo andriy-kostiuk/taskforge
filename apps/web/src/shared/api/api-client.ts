@@ -1,9 +1,10 @@
-import { API_URL } from '@/constants';
 import axios, {
   AxiosError,
   type AxiosInstance,
   type InternalAxiosRequestConfig,
 } from 'axios';
+
+import { API_URL } from '@/constants';
 
 const REFRESH_PATH = '/auth/refresh';
 

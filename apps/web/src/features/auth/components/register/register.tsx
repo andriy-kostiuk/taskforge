@@ -1,16 +1,18 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { CreateUserInput } from '@taskforge/contracts';
 import { useRouter } from 'next/navigation';
-import { useForm, useWatch } from 'react-hook-form';
 import type { SubmitHandler } from 'react-hook-form';
-
-import { AuthCard } from '../auth-card';
-import { FieldConfig } from '../../types';
-import { register as registerUser, getApiError } from '@/shared/api';
+import { useForm, useWatch } from 'react-hook-form';
 import { toast } from 'react-toastify';
+
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { ROUTES } from '@/constants';
+import { getApiError, register as registerUser } from '@/shared/api';
+
+import { FieldConfig } from '../../types';
+import { AuthCard } from '../auth-card';
 
 type RegisterFormValues = CreateUserInput & {
   confirmPassword: string;
@@ -83,7 +85,7 @@ export const Register = () => {
   ];
 
   const handleBack = () => {
-    router.push('/login');
+    router.push(ROUTES.Login);
   };
 
   return (

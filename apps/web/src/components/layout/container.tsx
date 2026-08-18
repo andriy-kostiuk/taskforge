@@ -1,5 +1,6 @@
-import { cn } from '@/lib/utils';
 import { FC, HTMLAttributes, ReactNode } from 'react';
+
+import { cn } from '@/lib/utils';
 
 interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
@@ -18,7 +19,7 @@ export const Container: FC<ContainerProps> = ({
       className={cn(
         'w-full mx-auto px-3 xs:px-3 sm:px-4 lg:px-8 xl:px-16',
         hasMaxWidth && 'max-w-content',
-        className,
+        className
       )}
     >
       {children}

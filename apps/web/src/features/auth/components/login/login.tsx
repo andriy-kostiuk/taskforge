@@ -1,16 +1,18 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { LoginInput } from '@taskforge/contracts';
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
 import type { SubmitHandler } from 'react-hook-form';
-
-import { AuthCard } from '../auth-card';
-import { FieldConfig } from '../../types';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { ROUTES } from '@/constants';
 import { getApiError, login } from '@/shared/api';
+
+import { FieldConfig } from '../../types';
+import { AuthCard } from '../auth-card';
 
 export const Login = () => {
   const router = useRouter();
@@ -25,7 +27,7 @@ export const Login = () => {
     try {
       await login(data);
 
-      router.push('/');
+      router.push(ROUTES.Home);
     } catch (error) {
       const { displayMessage } = getApiError(error);
 
@@ -53,7 +55,7 @@ export const Login = () => {
   ];
 
   const handleRegister = () => {
-    router.push('/register');
+    router.push(ROUTES.Register);
   };
 
   return (

@@ -1,9 +1,11 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { logout } from '@/shared/api';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+
+import { Button } from '@/components/ui/button';
+import { ROUTES } from '@/constants';
+import { logout } from '@/shared/api';
 
 export function LogoutButton() {
   const router = useRouter();
@@ -13,7 +15,7 @@ export function LogoutButton() {
     try {
       setIsPending(true);
       await logout();
-      router.replace('/login');
+      router.replace(ROUTES.Login);
       router.refresh();
     } finally {
       setIsPending(false);
